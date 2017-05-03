@@ -9,5 +9,5 @@ class TempData(models.Model):
         return reverse('Temperature:input')
     
     def __str__(self):
-        return self.temp
+        return "The Temperature on " + str(self.date_time) + " was: " + str(self.temp)
     

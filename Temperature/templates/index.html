@@ -1,8 +1,37 @@
 {% extends 'base.html' %}
 {% block title %} HomePage {% endblock %}
 {% block body %}
-	<h1>Welcome To The Our Website</h1>
+	<h1>Welcome To Our Website</h1>
 
 	<h3>We Analyze Temperature Data Over Time</h3>
+
+	<div class="panel panel-default">
+				
+		<div class="panel-body">
+			
+			<h3>All Temperatures</h3>
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Temp ID</th>
+						<th>Day Recorded</th>
+						<th>Temperature</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for data in all_data %}
+					<tr>
+						<td>{{ data.id }}</td>
+						<td>{{ data.date_time}}</td>
+						<td>{{ data.temp}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
 
 {% endblock %}
