@@ -2,19 +2,7 @@
 {% block title %} Record A New Temp {% endblock %}
 
 {% block body %}
-	<h1>Welcome To The Temperature Recordings Page</h1>
 
-	{% if error_message %}
-		<p><strong>{{ error_message }}</strong></p> 
-	{% endif %}
-
-	<form action="" method="post">
-		{% csrf_token %}
-		<label>Temperature</label>
-		<input type="text" name="temp">
-		<label>Date</label>
-		<input type="datetime" name="date" value="" placeholder="">
-		<input type="submit" name="Submit" value="Submit">
-	</form>
+{% include 'tempdata_form.html' %}
 
 {% endblock %}
