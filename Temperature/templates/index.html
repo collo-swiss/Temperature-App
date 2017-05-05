@@ -1,37 +1,159 @@
-{% extends 'base.html' %}
-{% block title %} HomePage {% endblock %}
-{% block body %}
-	<h1>Welcome To Our Website</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>{% block title %} Temperature {% endblock %}</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		{% load staticfiles %}
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet" type="text/css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="{% static 'fusioncharts.js' %}"></script>
+		<script type="text/javascript" src="{% static 'fusioncharts.theme.fint.js' %}"></script>
+  		<script type="text/javascript">
+			  FusionCharts.ready(function(){
+			    var fusioncharts = new FusionCharts({
+			    type: 'line',
+			    renderAt: 'chart-container',
+			    width: '500',
+			    height: '300',
+			    dataFormat: 'json',
+			    dataSource: {
+			        "chart": {
+			            "caption": "Temperature Readings Over Time",
+			            "subCaption": "Last week",
+			            "xAxisName": "Day & Time",
+			            "yAxisName": "Temperature (C)",
+			            "degreePrefix": "C",
 
-	<h3>We Analyze Temperature Data Over Time</h3>
+			            //Cosmetics
+			            "lineThickness": "2",
+			            "paletteColors": "#0075c2",
+			            "baseFontColor": "#333333",
+			            "baseFont": "Helvetica Neue,Arial",
+			            "captionFontSize": "14",
+			            "subcaptionFontSize": "14",
+			            "subcaptionFontBold": "0",
+			            "showBorder": "0",
+			            "bgColor": "#ffffff",
+			            "showShadow": "0",
+			            "canvasBgColor": "#ffffff",
+			            "canvasBorderAlpha": "0",
+			            "divlineAlpha": "100",
+			            "divlineColor": "#999999",
+			            "divlineThickness": "1",
+			            "divLineIsDashed": "1",
+			            "divLineDashLen": "1",
+			            "divLineGapLen": "1",
+			            "showXAxisLine": "1",
+			            "xAxisLineThickness": "1",
+			            "xAxisLineColor": "#999999",
+			            "showAlternateHGridColor": "0",
 
-	<div class="panel panel-default">
-				
-		<div class="panel-body">
-			
-			<h3>All Temperatures</h3>
+			        },
+			        "data": [{
+			            "label": "Mon",
+			            "value": "27.5"
+			        }, {
+			            "label": "Tue",
+			            "value": "18.5"
+			        }, {
+			            "label": "Wed",
+			            "value": "20.33"
+			        }, {
+			            "label": "Thu",
+			            "value": "15.3"
+			        }, {
+			            "label": "Fri",
+			            "value": "28.0"
+			        }, {
+			            "label": "Sat",
+			            "value": "15.3"
+			        }, {
+			            "label": "Sun",
+			            "value": "15.5"
+			        }],
+			        "trendlines": [{
+			            "line": [{
+			                "startvalue": "18500",
+			                "color": "#1aaf5d",
+			                "valueOnRight": "1",
+			                "thickness": "2"
+			            }]
+			        }]
+			    }
+			}
+			);
+			    fusioncharts.render();
+			});
+</script
+		<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
 
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Temp ID</th>
-						<th>Day Recorded</th>
-						<th>Temperature</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for data in all_data %}
-					<tr>
-						<td>{{ data.id }}</td>
-						<td>{{ data.date_time}}</td>
-						<td>{{ data.temp}}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+
+	<body>
+		<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		
+			<a class="navbar-brand" href="{% url 'Temperature:index' %}" >Home Page</a>
+			<div class="collapse navbar-collapse" id="topNavBar">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="">
+						<a href="{% url 'Temperature:record-temp' %}">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Record Temp 
+						</a>
+					</li>
+					<<li>
+						<a href="#">
+							<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Login
+						</a>
+					</li>
+				</ul>
+
+			</div>
 
 		</div>
+		</nav>
 
-	</div>
+		<h1>Welcome To Our Website</h1>
+		<div class="container container-fluid">
+		<div class="row">
+			<div class="col-lg-6">
+			<h3>We Analyze Temperature Data Over Time</h3>
+				<div class="panel panel-default">
+							
+					<div class="panel-body">
+						
+						<h3>All Temperatures</h3>
 
-{% endblock %}
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Temp ID</th>
+									<th>Day Recorded</th>
+									<th>Temperature</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for data in all_data %}
+								<tr>
+									<td>{{ data.id }}</td>
+									<td>{{ data.date_time}}</td>
+									<td>{{ data.temp}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-6">
+				<h3>All Temperatures</h3>
+				<div id="chart-container">{{ output|safe }}</div>
+			</div>
+		</div>
+		</div>
+	</body>
